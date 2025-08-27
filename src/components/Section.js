@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled, { keyframes } from "styled-components";
+import { motion, useInView } from "framer-motion";
 
 function Section({
   title,
@@ -8,12 +9,24 @@ function Section({
   RightBtnText,
   backgroundImg,
 }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  // once: true => chỉ animate 1 lần khi xuất hiện
+  // margin => chạy animation sớm hơn khi gần viewport
+
   return (
-    <Wrap bgImage={backgroundImg}>
-      <ItemText>
-        <h1>{title}</h1>
-        <p>{description}</p>
-      </ItemText>
+    <Wrap bgImage={backgroundImg} ref={ref}>
+      <Fade
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 1 }}
+      >
+        <ItemText>
+          <h1>{title}</h1>
+          <p>{description}</p>
+        </ItemText>
+      </Fade>
+
       <Buttons>
         <ButtonGroup>
           <LeftButton>{lefBtnText}</LeftButton>
@@ -35,12 +48,10 @@ const animateDown = keyframes`
 
 const Wrap = styled.div`
   width: 100%;
-  min-height: 100vh; // bắt buộc
-  background-image: url("/images/model-s.jpg");
+  min-height: 100vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -95,3 +106,5 @@ const DownArrow = styled.img`
   height: 40px;
   animation: ${animateDown} 1.5s infinite;
 `;
+
+const Fade = styled(motion.div)``;
