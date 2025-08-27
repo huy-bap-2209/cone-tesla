@@ -28,11 +28,21 @@ function Section({
       </Fade>
 
       <Buttons>
-        <ButtonGroup>
-          <LeftButton>{lefBtnText}</LeftButton>
-          {RightBtnText && <RightButton>{RightBtnText}</RightButton>}
-        </ButtonGroup>
-        <DownArrow src="/images/down-arrow.svg" />
+        <Fade
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1 }}
+        >
+          <ButtonGroup
+            initial={{ opacity: 0, y: 50 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1 }}
+          >
+            <LeftButton>{lefBtnText}</LeftButton>
+            {RightBtnText && <RightButton>{RightBtnText}</RightButton>}
+          </ButtonGroup>
+          <DownArrow src="/images/down-arrow.svg" />
+        </Fade>
       </Buttons>
     </Wrap>
   );
