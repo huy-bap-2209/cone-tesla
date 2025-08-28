@@ -31,7 +31,7 @@ function Section({
         <Fade
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1 }}
+          transition={{ duration: 2 }}
         >
           <ButtonGroup
             initial={{ opacity: 0, y: 50 }}
@@ -41,7 +41,12 @@ function Section({
             <LeftButton>{lefBtnText}</LeftButton>
             {RightBtnText && <RightButton>{RightBtnText}</RightButton>}
           </ButtonGroup>
-          <DownArrow src="/images/down-arrow.svg" />
+          <DownArrow
+            src="/images/down-arrow.svg"
+            onClick={() =>
+              window.scrollBy({ top: window.innerHeight, behavior: "smooth" })
+            }
+          />
         </Fade>
       </Buttons>
     </Wrap>
@@ -104,6 +109,12 @@ const LeftButton = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin: 0 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 `;
 
 const RightButton = styled(LeftButton)`
@@ -115,6 +126,12 @@ const RightButton = styled(LeftButton)`
 const DownArrow = styled.img`
   height: 40px;
   animation: ${animateDown} 1.5s infinite;
+  cursor: pointer;
+  transition: filter 0.3s;
+
+  &:hover {
+    filter: brightness(1.5);
+  }
 `;
 
 const Fade = styled(motion.div)``;
